@@ -295,10 +295,22 @@
       var $add = $('#events').find('#add');
       
       function addEvent(i) {
-        if (i > 0) {
-          $('<div class="right-arrow"></div>').insertBefore($add);
-        }
-        var eventSelect = $('<div class="event_select inline block" id="' + i + '"></div>').insertBefore($add).MPEventSelect();
+        var params = {
+          'limit': 1500
+        };
+        var globalEventsOptions = { items: [] };
+        globalEventsOptions.items.push({label: '---  Select an Event  ---', value: null});
+        MP.api.topEvents(params).done(function(results) {
+          console.log(results.values())
+          _.each(results.values(), function(item) {
+            globalEventsOptions.items.push({label: item, value: item});
+            });
+          if (i > 0) {
+            $('<div class="right-arrow"></div>').insertBefore($add);
+          }
+          var eventSelect = $('<div class="event_select inline block" id="' + i + '"></div>').insertBefore($add).MPSelect();
+          eventSelect.MPSelect('initEl', globalEventsOptions);
+        })
       }
       function resetEvents() {
         // clear event dropdowns
