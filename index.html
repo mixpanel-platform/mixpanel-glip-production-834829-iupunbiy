@@ -427,6 +427,7 @@
         
         MP.api.custom_query(script, queryParams).done(function(results) {
           cqResult = results[0];
+          console.log(JSON.stringify(cqResult))
           last_response = cqResult
           $('#csv_export').show();
           for (var i = 0; i < event_list.length; i++) {
